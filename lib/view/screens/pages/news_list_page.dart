@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:news_feed/data/search_type.dart';
+import 'package:news_feed/view/compornents/category_chips.dart';
+import 'package:news_feed/viewmodels/news_list_viewmodels.dart';
+import 'package:provider/provider.dart';
 
+import '../../../data/category_info.dart';
 import '../../compornents/serach_bar.dart';
 
 class NewsListPage extends StatelessWidget {
@@ -20,11 +25,13 @@ class NewsListPage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              //TODO 検索バー
-              SearchBar(onSearch: (keyword) => getKeywordNews(context, keyword),),
+              SearchBar(
+                onSearch: (keyword) => getKeywordNews(context, keyword),
+              ),
               //TODO カテゴリー
-              // CategoryChips(),
-              //TODO 記事表示
+              CategoryChips(
+                  onCategorySelected: (category) =>
+                      getCategoryNews(context, category)),
               Expanded(
                 child: Center(
                   child: CircularProgressIndicator(),
@@ -38,10 +45,28 @@ class NewsListPage extends StatelessWidget {
   }
 
   //TODO 記事更新処理
-  void onRefresh(BuildContext context) {}
+  Future<void> onRefresh(BuildContext context) async{
+    final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
+   await viewModel.getNews(
+        searchType: viewModel.searchTypes,
+        keyword: viewModel.keyword,
+        category: viewModel.category);
+  }
 
   //TODO キーワード記事取得処理
-  getKeywordNews(BuildContext context, keyword) {
+  Future<void> getKeywordNews(BuildContext context, keyword) async{
+    final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
+    await viewModel.getNews(
+        searchType: SearchType.KEYWORD,
+        keyword: keyword,
+        category: categories[0]);
     print("NewListPage.getKeywordNews");
+  }
+
+  //TODO カテゴリー記事取得処理
+  Future<void> getCategoryNews(BuildContext context, Category category) async{
+    print("NewListPage.getCategoryNews / category: ${category.nameJp}");
+    final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
+    await viewModel.getNews(searchType: SearchType.CATEGORY, category: category);
   }
 }
