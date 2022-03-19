@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:news_feed/styles/styles.dart';
 import 'package:news_feed/view/screens/home_screen.dart';
-import 'package:news_feed/viewmodels/news_list_viewmodels.dart';
+import 'package:news_feed/viewmodels/head_line_viewmodel.dart';
+import 'package:news_feed/viewmodels/news_list_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 void main(){
   runApp(
-      ChangeNotifierProvider<NewsListViewModel>(create: (context) => NewsListViewModel(),
-      child: MyApp()
-       ),
-      );
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => NewsListViewModel()), //並列に並んでいるように見えて実際は上からツリー上になっている
+        ChangeNotifierProvider(create: (_) => HeadLineViewModel()),   //(context),(_)どちらも同じ
+
+      ],
+        child: MyApp()
+  ),
+  );
 }
 
 class MyApp extends StatelessWidget {
