@@ -8,13 +8,16 @@ import 'package:provider/provider.dart';
 void main(){
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => NewsListViewModel()), //並列に並んでいるように見えて実際は上からツリー上になっている
-        ChangeNotifierProvider(create: (_) => HeadLineViewModel()),   //(context),(_)どちらも同じ
-
-      ],
-        child: MyApp()
-  ),
+        providers: [
+          ChangeNotifierProvider(
+              create: (_) => NewsListViewModel()
+          ),
+          ChangeNotifierProvider(
+              create: (_) => HeadLineViewModel()
+          ),
+        ],
+            child: MyApp(),
+    )
   );
 }
 

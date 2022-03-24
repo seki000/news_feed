@@ -38,6 +38,8 @@ dependencies:
   http: ^0.13.4
   cached_network_image: ^3.2.0
   json_annotation: ^4.4.0
+  webview_flutter: ^3.0.1
+
 
 dev_dependencies:
   flutter_test:

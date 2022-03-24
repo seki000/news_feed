@@ -3,6 +3,7 @@ import 'package:news_feed/data/search_type.dart';
 import 'package:news_feed/models/model/news_models.dart';
 import 'package:news_feed/view/compornents/article_tile.dart';
 import 'package:news_feed/view/compornents/category_chips.dart';
+import 'package:news_feed/view/screens/news_webpage_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/category_info.dart';
@@ -90,8 +91,15 @@ class NewsListPage extends StatelessWidget {
         searchType: SearchType.CATEGORY, category: category);
   }
 
-  //TODO
+
   _openArticleWebPage(Article article, BuildContext context) {
     print("_openArticleWebPage: ${article.url}");
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) => NewsWebPageScreen(
+              article: article
+          )
+      )
+    );
   }
 }
