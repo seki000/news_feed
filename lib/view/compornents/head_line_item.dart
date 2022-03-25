@@ -18,7 +18,7 @@ class HeadLineItem extends StatelessWidget {
     return Card(
       elevation: 4.0,
       child: InkWell(
-        onTap:  () => onArticleClicked,
+        onTap:  () => onArticleClicked(article),
         child: Stack(
           fit: StackFit.expand, //親のサイズにフィットするように広げる
           children: [
