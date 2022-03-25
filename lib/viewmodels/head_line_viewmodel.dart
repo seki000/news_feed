@@ -22,7 +22,7 @@ class HeadLineViewModel extends ChangeNotifier{
     notifyListeners();
 
     _articles = await _repository.getNews(searchType: SearchType.HEAD_LINE);
-    print("searchType: $_searchType /  articles: ${_articles[0].title}");
+    // print("searchType: $_searchType /  articles: ${_articles[0].title}");
     _isLoading = false;
     notifyListeners();
   }
