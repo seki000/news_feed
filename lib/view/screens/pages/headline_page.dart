@@ -15,13 +15,11 @@ class HeadLinePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final viewModel = Provider.of<HeadLineViewModel>(context, listen: false);
     // final viewModel = context.read<HeadLineViewModel>();
 
-    if(!viewModel.isLoading && viewModel.articles.isEmpty){
-      Future (()=> viewModel.getHeadLines(searchType: SearchType.HEAD_LINE));
-
+    if (!viewModel.isLoading && viewModel.articles.isEmpty) {
+      Future(() => viewModel.getHeadLines(searchType: SearchType.HEAD_LINE));
     }
 
     return SafeArea(
@@ -29,37 +27,39 @@ class HeadLinePage extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Consumer<HeadLineViewModel>(
-                builder: (context, model, child){
-                  if(model.isLoading){
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }else {
-                    return PageTransformer(
-                      pageViewBuilder: (context, pageVisibilityResolver){
-                        return  PageView.builder(
-                            controller: PageController(
-                                viewportFraction: 0.9 //左右のサイズ 1.0が最大
-                            ),
-                            itemCount: model.articles.length,
-                            itemBuilder: (context, index){
-                              final article = model.articles[index];
-                              final pageVisibility = pageVisibilityResolver.resolvePageVisibility(index);
-                              final visibleFraction = pageVisibility.visibleFraction;
-                              return HeadLineItem(
-                                  article: model.articles[index],
-                                  pageVisibility: pageVisibility,
-                                  onArticleClicked: (article) => _openArticleWebPage(article, context)
-                              );
-                            });
-                      },
-                    );
-                  }
-                },
+            builder: (context, model, child) {
+              if (model.isLoading) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return PageTransformer(
+                  pageViewBuilder: (context, pageVisibilityResolver) {
+                    return PageView.builder(
+                        controller:
+                            PageController(viewportFraction: 0.9 //左右のサイズ 1.0が最大
+                                ),
+                        itemCount: model.articles.length,
+                        itemBuilder: (context, index) {
+                          final article = model.articles[index];
+                          final pageVisibility = pageVisibilityResolver
+                              .resolvePageVisibility(index);
+                          final visibleFraction =
+                              pageVisibility.visibleFraction;
+                          return HeadLineItem(
+                              article: model.articles[index],
+                              pageVisibility: pageVisibility,
+                              onArticleClicked: (article) =>
+                                  _openArticleWebPage(article, context));
+                        });
+                  },
+                );
+              }
+            },
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: (){
+          onPressed: () {
             onRefresh(context);
           },
           child: Icon(Icons.refresh),
@@ -69,7 +69,7 @@ class HeadLinePage extends StatelessWidget {
   }
 
   //TODO 更新処理
-  void onRefresh(BuildContext context) async{
+  void onRefresh(BuildContext context) async {
     print("HeadlinePage.onRefresh");
     final viewModel = Provider.of<HeadLineViewModel>(context, listen: false);
     // final viewModel = context.read<HeadLineViewModel>();
@@ -78,11 +78,7 @@ class HeadLinePage extends StatelessWidget {
 
   _openArticleWebPage(Article article, BuildContext context) {
     print("HeadlinePage._openArticleWebPage: ${article.url}");
-    Navigator.of(context).push(
-        MaterialPageRoute(
-            builder: (context) => NewsWebPageScreen(
-                article: article)
-        )
-    );
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => NewsWebPageScreen(article: article)));
   }
 }

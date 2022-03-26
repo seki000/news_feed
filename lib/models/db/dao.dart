@@ -3,12 +3,11 @@ import 'package:news_feed/models/db/database.dart';
 
 part 'dao.g.dart';
 
-
 @DriftAccessor(tables: [ArticleRecords])
-class NewsDao extends DatabaseAccessor<MyDatabase> with _$NewsDaoMixin{
+class NewsDao extends DatabaseAccessor<MyDatabase> with _$NewsDaoMixin {
   NewsDao(MyDatabase db) : super(db);
 
-  Future clearDB() => delete(articleRecords).go();  //DBからクリアする
+  Future clearDB() => delete(articleRecords).go(); //DBからクリアする
 
   Future insertDB(List<ArticleRecord> articles) async {
     await batch((batch) {
@@ -20,10 +19,12 @@ class NewsDao extends DatabaseAccessor<MyDatabase> with _$NewsDaoMixin{
       select(articleRecords).get();
 
   Future<List<ArticleRecord>> insertAndReadNewsFromDB(
-      List<ArticleRecord> articles) => transaction(() async{
-        await clearDB();
-        await insertDB(articles);
-        return await articlesFromDB;
-      }
+          List<ArticleRecord> articles) =>
+      transaction(
+        () async {
+          await clearDB();
+          await insertDB(articles);
+          return await articlesFromDB;
+        },
       );
 }
