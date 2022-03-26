@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AboutUsPage extends StatefulWidget {
@@ -16,21 +17,26 @@ class _AboutUsPageState extends State<AboutUsPage> {
       child: Scaffold(
         body: Center(
           child: AnimatedContainer(
-              alignment: _isSelected ? Alignment.center : Alignment.topCenter,
-              width: _isSelected ? 300 : 50,
-              height: _isSelected ? 200 : 25,
-              child: _isSelected ?
-              Text("News Feed App" , style: TextStyle(fontSize: 40.0),) :
-              Text("News Feed App" , style: TextStyle(fontSize: 6.0),),
-              duration: Duration(milliseconds: 1000),
-              curve: Curves.fastOutSlowIn,
+            alignment: _isSelected ? Alignment.center : Alignment.topCenter,
+            width: _isSelected ? 300 : 50,
+            height: _isSelected ? 200 : 25,
+            child: AutoSizeText(
+              "News Feed App",
+              style: TextStyle(fontSize: 40.0),
+              minFontSize: 6.0,
+              maxLines: 1,
+              overflow: TextOverflow.visible,
+            ),
+            duration: Duration(milliseconds: 1000),
+            curve: Curves.fastOutSlowIn,
           ),
         ),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.play_arrow),
             tooltip: "飛び出すよ",
-            onPressed: (){
+            onPressed: () {
               _isSelected = !_isSelected;
+              setState(() {});
             }),
       ),
     );

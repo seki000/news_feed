@@ -3,7 +3,6 @@ import 'package:news_feed/models/db/database.dart';
 
 part 'dao.g.dart';
 
-
 @DriftAccessor(tables: [ArticleRecords])
 class NewsDao extends DatabaseAccessor<MyDatabase> with _$NewsDaoMixin{
   NewsDao(MyDatabase db) : super(db);

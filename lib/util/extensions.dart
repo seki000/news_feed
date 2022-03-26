@@ -7,15 +7,18 @@ extension ConvertToArticleRecord on List<Article> {
   List<ArticleRecord> toArticleRecords(List<Article> articles) {
     var articleRecords = <ArticleRecord>[];
     articles.forEach((article) {
-      ArticleRecord(
+      articleRecords.add(
+          ArticleRecord(
           title: article.title ?? "",
           description: article.description ?? "",
           url: article.url ?? "",
           urlToImage: article.urlToImage ?? "",
           publishDate: article.publishDate ?? "",
           content: article.content ?? ""
+          )
       );
-    });
+    }
+    );
     return articleRecords;
   }
 }
